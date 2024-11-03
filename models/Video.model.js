@@ -1,31 +1,38 @@
 import mongoose, { Schema } from "mongoose";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
-
 
 const VideoSchema = new Schema(
     {
         videoFile: {
-            type: String,// clodernary url
-            required: true,
+            cloudinaryUrl: String,
+            encodedUrl: {
+                type: Map,
+                of: String,
+                required: true,
+            }
         },
         thumbnail: {
             type: String,// clodernary url
             required: true,
         },
-        tittle: {
+        status: {
+            type: String,
+            enum: ["Processing", "Waiting", "Done"],
+            default: "Waiting"
+        },
+        title: {
             type: String,
             required: true,
         },
         description: {
-            type: String,// clodernary url
+            type: String,
             required: true,
         },
         duration: {
-            type: Number, // clodnary in return it sends this
+            type: Number, // Video duration
             required: true,
         },
         views: {
-            type: Number, // clodnary in return it sends this
+            type: Number,
             default: 0
         },
         isPublished: {
@@ -43,8 +50,8 @@ const VideoSchema = new Schema(
     {
         timestamps: true
     }
-)
+);
 
-VideoSchema.plugin(mongooseAggregatePaginate)
 
-export const Video = mongoose.model("Video", VideoSchema)
+
+export const Video = mongoose.model("Video", VideoSchema);

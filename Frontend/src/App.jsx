@@ -6,7 +6,7 @@ function App() {
   const playerRef = useRef(null);
   
   // Initial video link (default to 720p)
-  const [videoLink, setVideoLink] = useState("http://localhost:4000/uploads/videos/bc984388-6f58-46c2-aeeb-d04fa3041749/240p.m3u8");
+  const [videoLink, setVideoLink] = useState("http://localhost:8000/uploads/videos/67225ec486b9f63e76788910/720p.m3u8");
 
   const videoPlayerOptions = {
     controls: true,
@@ -33,8 +33,8 @@ function App() {
   };
 
   const changeResolution = (resolution) => {
-    const videoId = "bc984388-6f58-46c2-aeeb-d04fa3041749";
-    const newVideoLink = `http://localhost:4000/uploads/videos/${videoId}/${resolution}.m3u8`;
+    const videoId = "67225ec486b9f63e76788910";
+    const newVideoLink = `http://localhost:8000/uploads/videos/${videoId}/${resolution}.m3u8`;
     
     // Update video source
     setVideoLink(newVideoLink);
