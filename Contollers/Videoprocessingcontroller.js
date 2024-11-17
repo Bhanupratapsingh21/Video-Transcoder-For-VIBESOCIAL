@@ -62,8 +62,7 @@ const processervideocontroller = async (req, res, next) => {
                 fs.mkdirSync(outputPath, { recursive: true });
             }
 
-            const ffmpegPath = 'C:\\ffmpeg\\bin\\ffmpeg.exe';
-            const ffmpegCommand = `${ffmpegPath} -i "${videoPath}" ` +
+            const ffmpegCommand = `ffmpeg -i "${videoPath}" ` +
                 `-filter:v:0 scale=w=426:h=240 -c:v:0 libx264 -c:a:0 aac -hls_time 10 -hls_playlist_type vod -hls_segment_filename "${outputPath}/240p_segment%03d.ts" "${outputPath}/240p.m3u8" ` +
                 `-filter:v:1 scale=w=640:h=460 -c:v:1 libx264 -c:a:1 aac -hls_time 10 -hls_playlist_type vod -hls_segment_filename "${outputPath}/460p_segment%03d.ts" "${outputPath}/460p.m3u8" ` +
                 `-filter:v:2 scale=w=1280:h=720 -c:v:2 libx264 -c:a:2 aac -hls_time 10 -hls_playlist_type vod -hls_segment_filename "${outputPath}/720p_segment%03d.ts" "${outputPath}/720p.m3u8"`;

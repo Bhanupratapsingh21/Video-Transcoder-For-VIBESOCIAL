@@ -21,25 +21,26 @@ const uploadFolderToS3 = async (folderPath, bucketName, prefix) => {
             Bucket: bucketName,
             Key: `${prefix}/${file}`, // Path in S3 bucket
             Body: fileContent,
-            ContentType: 'application/vnd.apple.mpegurl', // MIME type for .m3u8 and .ts files
+            ContentType: file.endsWith('.m3u8') ? 'application/vnd.apple.mpegurl' : 'video/MP2T', // Adjust content type
         };
 
         // Upload each file
         const uploadResult = await s3.upload(params).promise();
-        console.log(`Uploaded ${file}`);
-        // console.log(`Uploaded ${file} to ${uploadResult.Location}`);
+        console.log(`Uploaded ${file} to ${uploadResult.Location}`);
 
-        // Map resolution to S3 URL
-        if (file.includes('240p')) {
-            uploadedUrls['240p'] = uploadResult.Location;
-        } else if (file.includes('460p')) {
-            uploadedUrls['460p'] = uploadResult.Location;
-        } else if (file.includes('720p')) {
-            uploadedUrls['720p'] = uploadResult.Location;
+        // Only add .m3u8 file URLs to the uploadedUrls object
+        if (file.endsWith('.m3u8')) {
+            if (file.includes('240p')) {
+                uploadedUrls['240p'] = uploadResult.Location;
+            } else if (file.includes('460p')) {
+                uploadedUrls['460p'] = uploadResult.Location;
+            } else if (file.includes('720p')) {
+                uploadedUrls['720p'] = uploadResult.Location;
+            }
         }
     }
 
     return uploadedUrls;
 };
 
-export default uploadFolderToS3
+export default uploadFolderToS3;
